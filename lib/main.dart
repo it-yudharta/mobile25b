@@ -27,7 +27,33 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: CounterWidget());
+    // return Row(
+    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //   children: [
+    //     Expanded(child: CounterWidget()),
+    //     Expanded(flex: 2, child: CounterWidget()),
+    //     Expanded(child: CounterWidget()),
+    //   ],
+    // );
+
+    return ListView(
+      children: [
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+        CounterWidget(),
+      ],
+    );
   }
 }
 
@@ -49,11 +75,14 @@ class _CounterState extends State<CounterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text('$_counter'),
-        FloatingActionButton(onPressed: _increment),
-      ],
+    return Container(
+      padding: EdgeInsets.all(12.0),
+      child: Column(
+        children: [
+          Text('$_counter'),
+          FloatingActionButton(onPressed: _increment),
+        ],
+      ),
     );
   }
 }
