@@ -7,7 +7,12 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Setting")),
-      body: Center(child: Text("setting")),
+      body: Center(
+        child: ElevatedButton(
+          child: Text("Kembali"),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
     );
   }
 }
