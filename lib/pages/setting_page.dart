@@ -5,12 +5,19 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final data = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(title: Text("Setting")),
       body: Center(
-        child: ElevatedButton(
-          child: Text("Kembali"),
-          onPressed: () => Navigator.pop(context),
+        child: Column(
+          children: [
+            Text("data: $data"),
+            ElevatedButton(
+              child: Text("Kembali"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
         ),
       ),
     );

@@ -13,7 +13,11 @@ class HomePage extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, "/setting");
+                Navigator.pushNamed(
+                  context,
+                  "/setting",
+                  arguments: "data dari home",
+                );
               },
               icon: Icon(Icons.settings),
             ),
