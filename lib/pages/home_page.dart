@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile25b/pages/setting_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,9 +11,7 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const SettingPage()),
-              );
+              Navigator.pushNamed(context, "/setting");
             },
             icon: Icon(Icons.settings),
           ),
