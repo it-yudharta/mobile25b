@@ -5,19 +5,42 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Home"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, "/setting");
-            },
-            icon: Icon(Icons.settings),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Home"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/setting");
+              },
+              icon: Icon(Icons.settings),
+            ),
+          ],
+          bottom: const TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_transit)),
+              Tab(icon: Icon(Icons.directions_bike)),
+            ],
           ),
-        ],
+        ),
+        body: TabBarView(
+          children: [
+            Center(child: Text("Mobil")),
+            Icon(Icons.directions_transit),
+            Icon(Icons.directions_bike),
+          ],
+        ),
+        bottomNavigationBar: const TabBar(
+          tabs: [
+            Tab(icon: Icon(Icons.directions_car)),
+            Tab(icon: Icon(Icons.directions_transit)),
+            Tab(icon: Icon(Icons.directions_bike)),
+          ],
+        ),
       ),
-      body: Center(child: Text("Home")),
     );
   }
 }
