@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile25b/pages/album_page.dart';
 import 'package:mobile25b/pages/home_page.dart';
 import 'package:mobile25b/pages/setting_page.dart';
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/setting': (context) => const SettingPage(),
+        '/album': (context) => const AlbumPage(),
       },
     );
   }

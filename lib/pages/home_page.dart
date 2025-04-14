@@ -32,7 +32,10 @@ class HomePage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            Icon(Icons.directions_car),
+            ElevatedButton(
+              child: Text("Album"),
+              onPressed: () => Navigator.pushNamed(context, '/album'),
+            ),
             Icon(Icons.directions_transit),
             Icon(Icons.directions_bike),
           ],
