@@ -3,9 +3,15 @@ import 'package:mobile25b/pages/album_page.dart';
 import 'package:mobile25b/pages/home_page.dart';
 import 'package:mobile25b/pages/news_page.dart';
 import 'package:mobile25b/pages/setting_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  await Supabase.initialize(
+    url: 'https://gynysildsdmjtqhjinot.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5bnlzaWxkc2RtanRxaGppbm90Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDUyMTk0MTQsImV4cCI6MjA2MDc5NTQxNH0.5nMAx-p7jmulMzm8wW5HuSkryh7c0ZnFbMgHuAQjgzQ',
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
