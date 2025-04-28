@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile25b/pages/news_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class NewsEditPage extends StatefulWidget {
@@ -9,6 +10,8 @@ class NewsEditPage extends StatefulWidget {
 }
 
 class _NewsEditPageState extends State<NewsEditPage> {
+  News? news;
+
   final _formKey = GlobalKey<FormState>();
   String title = '';
   String content = '';
@@ -16,8 +19,18 @@ class _NewsEditPageState extends State<NewsEditPage> {
   Future save(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       final supabase = Supabase.instance.client;
-      await supabase.from('news').insert({'title': title, 'content': content});
 
+      if (news != null) {
+        await supabase
+            .from('news')
+            .update({'title': title, 'content': content})
+            .eq('id', news!.id);
+      } else {
+        await supabase.from('news').insert({
+          'title': title,
+          'content': content,
+        });
+      }
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Data berhasil disimpan')));
@@ -28,6 +41,14 @@ class _NewsEditPageState extends State<NewsEditPage> {
 
   @override
   Widget build(BuildContext context) {
+    news = ModalRoute.of(context)!.settings.arguments as News?;
+    if (news != null) {
+      setState(() {
+        title = news!.title;
+        content = news!.content;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(title: const Text('Edit News')),
       body: Form(
@@ -42,6 +63,7 @@ class _NewsEditPageState extends State<NewsEditPage> {
                 }
                 return null;
               },
+              initialValue: title,
               onChanged: (value) {
                 setState(() {
                   title = value;
@@ -50,6 +72,7 @@ class _NewsEditPageState extends State<NewsEditPage> {
             ),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Isi Berita'),
+              initialValue: content,
               onChanged: (value) {
                 setState(() {
                   content = value;

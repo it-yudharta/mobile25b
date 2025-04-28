@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -9,12 +11,16 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
-  late Future futureNews;
+  late Future<List<News>> futureNews;
 
   @override
   void initState() {
     super.initState();
     futureNews = fetchNews();
+  }
+
+  void editNewsPage(BuildContext context, Object? arguments) {
+    Navigator.pushNamed(context, '/news/edit', arguments: arguments);
   }
 
   @override
@@ -26,7 +32,17 @@ class _NewsPageState extends State<NewsPage> {
           future: futureNews,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data.toString());
+              return ListView.builder(
+                itemCount: snapshot.data?.length,
+                itemBuilder: (context, index) {
+                  final news = snapshot.data?[index];
+                  return ListTile(
+                    title: Text(news?.title ?? ''),
+                    subtitle: Text(news?.content ?? ''),
+                    onTap: () => editNewsPage(context, news),
+                  );
+                },
+              );
             } else if (snapshot.hasError) {
               return Text('${snapshot.error}');
             }
@@ -37,17 +53,31 @@ class _NewsPageState extends State<NewsPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/news/edit');
-        },
+        onPressed: () => editNewsPage(context, null),
         child: const Icon(Icons.add),
       ),
     );
   }
 }
 
-Future fetchNews() async {
+Future<List<News>> fetchNews() async {
   final supabase = Supabase.instance.client;
   final data = await supabase.from('news').select();
-  return data;
+  return data.map((e) => News.fromJson(e)).toList();
+}
+
+class News {
+  final String id;
+  final String title;
+  final String content;
+
+  const News({required this.id, required this.title, required this.content});
+
+  factory News.fromJson(Map<String, dynamic> json) {
+    return switch (json) {
+      {'id': String id, 'title': String title, 'content': String content} =>
+        News(id: id, title: title, content: content),
+      _ => throw const FormatException('Failed to load album.'),
+    };
+  }
 }
