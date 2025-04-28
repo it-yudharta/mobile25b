@@ -36,6 +36,12 @@ class _NewsPageState extends State<NewsPage> {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/news/edit');
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
