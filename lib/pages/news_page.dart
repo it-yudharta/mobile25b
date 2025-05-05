@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -19,8 +17,17 @@ class _NewsPageState extends State<NewsPage> {
     futureNews = fetchNews();
   }
 
-  void editNewsPage(BuildContext context, Object? arguments) {
-    Navigator.pushNamed(context, '/news/edit', arguments: arguments);
+  void editNewsPage(BuildContext context, Object? arguments) async {
+    final result = await Navigator.pushNamed(
+      context,
+      '/news/edit',
+      arguments: arguments,
+    );
+    if (result == 'ok') {
+      setState(() {
+        futureNews = fetchNews();
+      });
+    }
   }
 
   @override

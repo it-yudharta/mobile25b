@@ -35,7 +35,7 @@ class _NewsEditPageState extends State<NewsEditPage> {
         context,
       ).showSnackBar(const SnackBar(content: Text('Data berhasil disimpan')));
 
-      Navigator.pop(context);
+      Navigator.pop(context, 'ok');
     }
   }
 
