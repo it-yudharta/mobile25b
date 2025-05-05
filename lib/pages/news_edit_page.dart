@@ -11,6 +11,7 @@ class NewsEditPage extends StatefulWidget {
 
 class _NewsEditPageState extends State<NewsEditPage> {
   News? news;
+  bool loaded = false;
 
   final _formKey = GlobalKey<FormState>();
   String title = '';
@@ -42,11 +43,12 @@ class _NewsEditPageState extends State<NewsEditPage> {
   @override
   Widget build(BuildContext context) {
     news = ModalRoute.of(context)!.settings.arguments as News?;
-    if (news != null) {
+    if (news != null && !loaded) {
       setState(() {
         title = news!.title;
         content = news!.content;
       });
+      loaded = true;
     }
 
     return Scaffold(
