@@ -32,18 +32,50 @@ class _NewsEditPageState extends State<NewsEditPage> {
           'content': content,
         });
       }
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Data berhasil disimpan')));
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Data berhasil disimpan')));
 
-      Navigator.pop(context, 'ok');
+        Navigator.pop(context, 'ok');
+      }
     }
   }
 
   Future delete(BuildContext context) async {
-    final supabase = Supabase.instance.client;
-    await supabase.from('news').delete().eq('id', news!.id);
-    Navigator.pop(context, 'ok');
+    // buatkan dialog konfirmasi
+    final confirm = await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Konfirmasi'),
+          content: const Text('Apakah anda yakin ingin menghapus berita ini?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Hapus'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirm == true) {
+      final supabase = Supabase.instance.client;
+      await supabase.from('news').delete().eq('id', news!.id);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Data berhasil dihapus')));
+
+        Navigator.pop(context, 'ok');
+      }
+    }
   }
 
   @override
@@ -59,13 +91,16 @@ class _NewsEditPageState extends State<NewsEditPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit News'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () => delete(context),
-          ),
-        ],
+        title: Text((news != null) ? 'Ubah Berita' : 'Tambah Berita'),
+        actions:
+            (news != null)
+                ? [
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => delete(context),
+                  ),
+                ]
+                : [],
       ),
       body: Form(
         key: _formKey,
