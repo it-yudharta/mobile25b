@@ -40,6 +40,12 @@ class _NewsEditPageState extends State<NewsEditPage> {
     }
   }
 
+  Future delete(BuildContext context) async {
+    final supabase = Supabase.instance.client;
+    await supabase.from('news').delete().eq('id', news!.id);
+    Navigator.pop(context, 'ok');
+  }
+
   @override
   Widget build(BuildContext context) {
     news = ModalRoute.of(context)!.settings.arguments as News?;
@@ -52,7 +58,15 @@ class _NewsEditPageState extends State<NewsEditPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit News')),
+      appBar: AppBar(
+        title: const Text('Edit News'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () => delete(context),
+          ),
+        ],
+      ),
       body: Form(
         key: _formKey,
         child: Column(
